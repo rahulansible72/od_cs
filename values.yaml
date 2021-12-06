@@ -1,0 +1,70 @@
+clusterID: "aws-useast1-apps-VWXYZ"
+clusterName: "aws-useast1-apps-DEFAULT"
+machinePurpose: "workerocs"
+machinesetGroup: "infra"
+infrastructure: "aws"
+region: "us-east-1"
+zone: "1a"
+zonewidth: 4
+replicas: 1
+diskSizeGB: 120
+userDataSecret: "worker-user-data"
+# gcp:
+#   machineType: ""
+#   projectID: ""
+#   image: ""
+aws:
+  ami: "ami-077ede5bed2e431ea"
+  credentialsSecret: "aws-cloud-credentials"
+  ebsEncrypted: 'true'
+  ebsIOPS: '0'
+  ebsVolType: gp2
+  iamInstanceProfile: "lab-aws-useast1-apps-lab-2-worker"
+  instanceType: "m5a.4xlarge"
+  loadBalancerName: "aws-useast1-apps-lab-2-apps"
+discover:
+  contact: "OCPEngineers"
+  costCenter: '458690'
+  dataClassification: na
+  email: "OCPEngineers@discover.com"
+  environment: "lab"
+  freedom: 'false'
+  gdpr: 'false'
+  openshiftRole: "workerocs"
+  pci: 'false'
+  product: "common"
+  public: 'false'
+  supportAssignmentGroup: "OCPEngineering"
+  uOrgCode: "OCP Ops"
+securityGroups:
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_aws-useast1-apps-lab-2-cluster
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_aws-useast1-apps-lab-2-worker
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_dfs-ocp-dev_dev
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_lb_dfs-ocp-dev_dev
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_dfs-ocp-dev_infralinux_vpcdev-priv
+tags:
+  - name: sg_networks_aws-useast1-apps-lab-2-cluster
+    value: '1'
+  - name: sg_networks_aws-useast1-apps-lab-2-worker
+    value: '1'
+  - name: sg_networks_dfs-ocp-dev_dev
+    value: '1'
+  - name: sg_networks_lb_dfs-ocp-dev_dev
+    value: '1'
+  - name: sg_dfs-ocp-dev_infralinux_vpcdev-priv
+    value: '1'

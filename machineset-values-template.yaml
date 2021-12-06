@@ -1,0 +1,59 @@
+clusterID: "${INFRA_ID}"
+clusterName: "${INFRA_NAME}"
+region: "${AWS_REGION}"
+zone: "${az}"
+zonewidth: ${AWS_NUM_AZS}
+replicas: 1
+diskSizeGB: 120
+userDataSecret: "worker-user-data"
+# gcp:
+#   machineType: ""
+#   projectID: ""
+#   image: ""
+aws:
+  ami: "${AWS_AMI}"
+  credentialsSecret: "aws-creds"
+  iamInstanceProfile: "lab-${INFRA_NAME}-worker"
+  loadBalancerName: "${INFRA_NAME}-apps"
+discover:
+  environment: "lab"
+  freedom: 'false'
+  gdpr: 'false'
+  openshiftRole: "workerocs"
+  pci: 'false'
+  product: "common"
+  public: 'false'
+  supportAssignmentGroup: "OCPEngineering"
+  uOrgCode: "OCP Ops"
+securityGroups:
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_${INFRA_NAME}-cluster
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_${INFRA_NAME}-worker
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_dfs-ocp-dev_dev
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_networks_lb_dfs-ocp-dev_dev
+  - filters:
+      - name: 'tag:Name'
+        values:
+          - sg_dfs-ocp-dev_infralinux_vpcdev-priv
+tags:
+  - name: sg_networks_${INFRA_NAME}-cluster
+    value: '1'
+  - name: sg_networks_${INFRA_NAME}-worker
+    value: '1'
+  - name: sg_networks_dfs-ocp-dev_dev
+    value: '1'
+  - name: sg_networks_lb_dfs-ocp-dev_dev
+    value: '1'
+  - name: sg_dfs-ocp-dev_infralinux_vpcdev-priv
+    value: '1'
